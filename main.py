@@ -7,33 +7,31 @@ import datetime
 import random
 import numpy as np
 
-
 chatStr = ""
 # https://youtu.be/Z3ZAJoi4x6Q
 def chat(query):
     global chatStr
     print(chatStr)
     openai.api_key = apikey
-    chatStr += f"Harry: {query}\n Jarvis: "
+    chatStr += f"Subhonil: {query}\n ExWhyZed: "
     response = openai.Completion.create(
         model="text-davinci-003",
-        prompt= chatStr,
+        prompt=chatStr,
         temperature=0.7,
         max_tokens=256,
         top_p=1,
         frequency_penalty=0,
         presence_penalty=0
     )
-    # todo: Wrap this inside of a  try catch block
+    # todo: Wrap this inside of a try-catch block
     say(response["choices"][0]["text"])
     chatStr += f"{response['choices'][0]['text']}\n"
     return response["choices"][0]["text"]
 
-
 def ai(prompt):
     openai.api_key = apikey
     text = f"OpenAI response for Prompt: {prompt} \n *************************\n\n"
-
+    
     response = openai.Completion.create(
         model="text-davinci-003",
         prompt=prompt,
@@ -43,7 +41,7 @@ def ai(prompt):
         frequency_penalty=0,
         presence_penalty=0
     )
-    # todo: Wrap this inside of a  try catch block
+    # todo: Wrap this inside of a try-catch block
     # print(response["choices"][0]["text"])
     text += response["choices"][0]["text"]
     if not os.path.exists("Openai"):
@@ -59,7 +57,7 @@ def say(text):
 def takeCommand():
     r = sr.Recognizer()
     with sr.Microphone() as source:
-        # r.pause_threshold =  0.6
+        # r.pause_threshold = 0.6
         audio = r.listen(source)
         try:
             print("Recognizing...")
@@ -67,11 +65,11 @@ def takeCommand():
             print(f"User said: {query}")
             return query
         except Exception as e:
-            return "Some Error Occurred. Sorry from Jarvis"
+            return "Some Error Occurred. Sorry from ExWhyZed"
 
 if __name__ == '__main__':
-    print('Welcome to Jarvis A.I')
-    say("Jarvis A.I")
+    print('Welcome to ExWhyZed A.I')
+    say("ExWhyZed A.I")
     while True:
         print("Listening...")
         query = takeCommand()
@@ -83,11 +81,10 @@ if __name__ == '__main__':
                 webbrowser.open(site[1])
         # todo: Add a feature to play a specific song
         if "open music" in query:
-            musicPath = "/Users/harry/Downloads/downfall-21371.mp3"
+            musicPath = "/Users/subhonil/Downloads/downfall-21371.mp3"
             os.system(f"open {musicPath}")
 
         elif "the time" in query:
-            musicPath = "/Users/harry/Downloads/downfall-21371.mp3"
             hour = datetime.datetime.now().strftime("%H")
             min = datetime.datetime.now().strftime("%M")
             say(f"Sir time is {hour} bajke {min} minutes")
@@ -101,7 +98,7 @@ if __name__ == '__main__':
         elif "Using artificial intelligence".lower() in query.lower():
             ai(prompt=query)
 
-        elif "Jarvis Quit".lower() in query.lower():
+        elif "ExWhyZed Quit".lower() in query.lower():
             exit()
 
         elif "reset chat".lower() in query.lower():
@@ -110,9 +107,5 @@ if __name__ == '__main__':
         else:
             print("Chatting...")
             chat(query)
-
-
-
-
 
         # say(query)
